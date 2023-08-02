@@ -1,35 +1,39 @@
 import { Component } from 'react';
-import Productos from './components/Productos.jsx';
-import Layout from './components/Layout.jsx';
-
-
+import { Products } from './components/Products';
+import { Layout } from './components/Layout';
+import { Title } from './components/Title';
+import { Navbar } from './components/Navbar';
 class App extends Component {
 	state = {
-		productos: [
+		products: [
 			{
-				name: 'Tomate',
+				name: 'Tomato',
 				price: 1500,
-				img: '/productos/tomate.jpg'
+				img: '/products/tomato.jpg',
 			},
 			{
-				name: 'Arbejas',
-				price: 2500,
-				img: '/productos/arbejas.jpg'
+				name: 'Pea',
+				price: 1500,
+				img: '/products/pea.jpg',
 			},
 			{
-				name: 'Lechuga',
-				price: 500,
-				img: '/productos/lechuga.jpg'
-			}
-		]
+				name: 'Lettuce',
+				price: 1500,
+				img: '/products/lettuce.jpg',
+			},
+		],
 	};
 
 	render() {
 		return (
 			<div>
+				<Navbar />
 				<Layout>
-				<Productos agregarAlCarro={() => console.log('No hace nada')} productos={this.state.productos} />
-				<p>Hola Mundo</p>
+					<Title />
+					<Products
+						addToCart={() => console.log('No Hace Nada')}
+						products={this.state.products}
+					/>
 				</Layout>
 			</div>
 		);
