@@ -8,7 +8,6 @@ const styles = {
 		border: 'none',
 		borderRadius: '5px',
 		cursor: 'pointer',
-        
 	},
 };
 export class Button extends Component {
