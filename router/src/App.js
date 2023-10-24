@@ -1,67 +1,32 @@
-import { BrowserRouter as Router, Route, Link, Routes, useMatch, useParams } from 'react-router-dom';
+import { Route, Link, useLocation, Routes } from 'react-router-dom';
 
-const Project = () => {
-    const match = useMatch()
-    const { project_id } = match.params;
-    const params = useParams();
-	return (
-		<div>
-			<h1>Project {project_id}</h1>
-		</div>
-	);
-};
-
-const Home = () => {
-	return (
-		<div>
-			<h1>Home</h1>
-		</div>
-	);
-};
-
-const Portfolio = () => {
-    const match = useMatch();
-    
-	return (
-		<div>
-			<h1>Portfolio</h1>
-			<ul>
-				<li>
-					<Link to={`/portfolio/project-1`}>Proyecto 1</Link>
-				</li>
-				<li>
-					<Link to={`/portfolio/project-2`}>Proyecto 2</Link>
-				</li>
-			</ul>
-		</div>
-	);
+const useQuery = () => {
+	return new URLSearchParams(useLocation().search);
 };
 
 export const App = () => {
+	const query = useQuery();
+	console.log(query.get('name'));
+
 	return (
-		<Router>
-			<div>
-				<nav>
-					<ul>
-						<li>
-							<Link to="/">Home</Link>
-						</li>
-						<li>
-							<Link to="/portfolio">Portfolio</Link>
-						</li>
-					</ul>
-				</nav>
-				<section>
-					<Routes>
-						<Route exact path="/" element={<Home />} />
-						<Route exact path="/portfolio" element={<Portfolio />} />
-						<Route
-							path="/portfolio/:project_id"
-							element={<Project/>}
-						/>
-					</Routes>
-				</section>
-			</div>
-		</Router>
+		<div>
+			<nav>
+				<ul>
+					<li>
+						<Link to="/">Inicio</Link>
+					</li>
+					<li>
+						<Link to="/chanchitofeliz">Chanchito Feliz</Link>
+					</li>
+				</ul>
+			</nav>
+			<section>
+				<Routes>
+					<Route exact path="/" element={<h1>Inicio</h1>} />
+					<Route path="/chanchitofeliz" element={<h1>Chanchito Feliz</h1>} />
+					<Route exact path="*" element={<h1>404: Route not founded</h1>} />
+				</Routes>
+			</section>
+		</div>
 	);
 };
