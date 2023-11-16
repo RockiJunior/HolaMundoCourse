@@ -17,7 +17,11 @@ export const todosReducer = (state = [], action) => {
 			});
 			return newTodos;
 		}
-		default:
+		case 'todos/fullfilled': {
+			return action.payload;
+		}
+		default: {
 			return state;
+		}
 	}
 };

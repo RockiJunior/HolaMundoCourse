@@ -1,14 +1,12 @@
+import { combineReducers } from 'redux';
 import { filterReducer } from './filterReducer/filterReducer';
 import { todosReducer } from './todosReducer/todosReducer';
+import { fetchingReducer } from './fetchingReducer/fetchingReducer';
 
-const initialState = {
-	entities: [],
-	filter: 'all',
-};
-
-export const GeneralReducer = (state = initialState, action) => {
-	return {
-		entities: todosReducer(state.entities, action),
-		filter: filterReducer(state.filter, action),
-	};
-};
+export const GeneralReducer = combineReducers({
+	todos: combineReducers({
+		entities: todosReducer,
+		status: fetchingReducer,
+	}),
+	filter: filterReducer,
+});

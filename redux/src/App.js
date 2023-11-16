@@ -1,15 +1,17 @@
-import { Children, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TodoItem } from './components/TodoItem';
 import { selectTodos } from './utils/selectTodos';
+import { selectStatus } from './utils/selectStatus';
+import { setFilter } from './redux/generalActions';
+import { fetchTodos } from './utils/fetchTodos';
 
 export const App = () => {
 	const [value, setValue] = useState('');
 	const dispatch = useDispatch();
 	const todos = useSelector(selectTodos);
-
-	console.log(todos)
-
+	const status = useSelector(selectStatus);
+ 
 	const submit = (e) => {
 		e.preventDefault();
 
@@ -29,6 +31,13 @@ export const App = () => {
 		setValue('');
 	};
 
+	if (status.loading === 'pending') {
+		return <p>Loading...</p>;
+	}
+	if (status.loading === 'rejected') {
+		return <p>{status.error}</p>;
+	}
+
 	return (
 		<div>
 			<form onSubmit={submit}>
@@ -39,35 +48,21 @@ export const App = () => {
 						setValue(e.target.value);
 					}}
 				/>
-				<button
-					onClick={() =>
-						dispatch({
-							type: 'filter/set',
-							payload: 'all',
-						})
-					}
-				>
+				<button onClick={() => dispatch(setFilter('all'))}>
 					Mostrar todos
 				</button>
-				<button
-					onClick={() =>
-						dispatch({
-							type: 'filter/set',
-							payload: 'completed',
-						})
-					}
-				>
+				<button onClick={() => dispatch(setFilter('completed'))}>
 					Completados
 				</button>
-				<button
-					onClick={() =>
-						dispatch({
-							type: 'filter/set',
-							payload: 'incompleted',
-						})
-					}
-				>
+				<button onClick={() => dispatch(setFilter('incompleted'))}>
 					Incompletos
+				</button>
+				<button
+					onClick={() => {
+						dispatch(fetchTodos());
+					}}
+				>
+					Fetch
 				</button>
 				<ul>
 					{todos?.map((todo) => (

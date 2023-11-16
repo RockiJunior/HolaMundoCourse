@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+import { setComplete } from '../redux/generalActions';
 
 export const TodoItem = ({ todo }) => {
 	const dispatch = useDispatch();
@@ -9,12 +10,7 @@ export const TodoItem = ({ todo }) => {
 				textDecoration: todo.completed ? 'line-through' : 'none',
 				cursor: 'pointer',
 			}}
-			onClick={() =>
-				dispatch({
-					type: 'todo/completed',
-					payload: todo,
-				})
-			}
+			onClick={() => dispatch(setComplete(todo))}
 		>
 			{todo.title}
 		</li>

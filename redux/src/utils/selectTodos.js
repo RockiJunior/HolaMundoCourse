@@ -1,7 +1,8 @@
 export const selectTodos = (state) => {
-	const { filter, entities } = state;
-	
-	console.log(entities );
+	const {
+		todos: { entities },
+		filter,
+	} = state;
 
 	switch (filter) {
 		case 'all':
