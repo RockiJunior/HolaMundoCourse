@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 const Pokemon = ({ pokemon }) => {
@@ -15,8 +16,23 @@ const Pokemon = ({ pokemon }) => {
 	);
 };
 
-const Pokemones = ({ pokemones }) => {
-	return (
+const Pokemones = () => {
+	const [loading, setLoading] = useState(true);
+	const [pokemones, setPokemones] = useState([]);
+
+	useEffect(() => {
+		const getPokemones = async () => {
+			const response = await fetch(
+				'https://pokeapi.co/api/v2/pokemon?limit=151'
+			);
+			const data = await response.json();
+			setPokemones(data.results);
+		};
+		setLoading(false);
+		getPokemones();
+	}, []);
+    
+	return !loading ? (
 		<div>
 			<h1 data-testid="titulo">MI APP DE POKEMONES</h1>
 			<ul>
@@ -25,20 +41,9 @@ const Pokemones = ({ pokemones }) => {
 				))}
 			</ul>
 		</div>
+	) : (
+		<p>Cargando...</p>
 	);
-};
-
-export const getStaticProps = async () => {
-	const response = await fetch(
-		'https://pokeapi.co/api/v2/pokemon?limit=151&offset=0'
-	);
-
-	const data = await response.json();
-	return {
-		props: {
-			pokemones: data.results,
-		},
-	};
 };
 
 export default Pokemones;
